@@ -44,7 +44,9 @@ for (let i = 0; i < trash.length; i++) {
 
     trash[i].addEventListener("click", function () {
 
-        trash[i].closest(".card-body").remove();
+        let product = trash[i].closest(".card-body").parentElement;
+
+        product.remove();
 
         updateTotal();
     });
@@ -61,6 +63,7 @@ for (let i = 0; i < hearts.length; i++) {
         } else {
             hearts[i].style.color = "red";
         }
+
     });
 }
 
@@ -68,18 +71,22 @@ for (let i = 0; i < hearts.length; i++) {
 // UPDATE TOTAL PRICE
 function updateTotal() {
 
-    let cards = document.querySelectorAll(".card");
+    let products = document.querySelectorAll(".card");
 
     let sum = 0;
 
-    for (let i = 0; i < cards.length; i++) {
+    for (let i = 0; i < products.length; i++) {
 
         let price = Number(
-            cards[i].querySelector(".unit-price").textContent.replace("FCFA", "")
+            products[i]
+                .querySelector(".unit-price")
+                .textContent
+                .replace("FCFA", "")
+                .trim()
         );
 
         let quantity = Number(
-            cards[i].querySelector(".quantity").textContent
+            products[i].querySelector(".quantity").textContent
         );
 
         sum = sum + price * quantity;
@@ -87,3 +94,7 @@ function updateTotal() {
 
     total.textContent = sum + " FCFA";
 }
+
+
+// Calculate total when the page loads
+updateTotal();
